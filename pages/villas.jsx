@@ -1,6 +1,6 @@
 import React from 'react';
 import { villasdata } from '../utils/data';
-
+import {  globaluse} from '../context/global';
 
 
 import dynamic from 'next/dynamic';
@@ -13,14 +13,14 @@ const VillaWithNoSSR  = dynamic(() => import('../components/singlevilla'), {
 
 const Villas = () => {
 
-
+const {name} =  globaluse()
 
 
 
 
     return (
         <div>
-            <h1>Villas</h1>
+            <h1>Villas {name}</h1>
 
 
 
