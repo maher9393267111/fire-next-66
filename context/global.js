@@ -50,10 +50,39 @@ export const globaluse = () => {
 
 
 const [name , setName] = useState('maher');
+const [villas , setVillas] = useState([]);
    
 
+// fetch villas from firebase
 
-const value ={name};
+useEffect(() => {
+
+    onSnapshot(
+        query(collection(db, "villas"), orderBy("name", "desc")),
+        (snapshot) => {
+          const productsArr = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+
+          setVillas(productsArr);
+          console.log(
+            "All ---------> villas is fetched",
+            productsArr,
+            ""
+          );
+        }
+      );
+           
+
+
+}
+, []);
+
+
+
+
+const value ={name,villas};
 
     return <globalContext.Provider {...{ value }}>{children}</globalContext.Provider>;
 

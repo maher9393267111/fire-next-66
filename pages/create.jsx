@@ -16,12 +16,10 @@ import {
   uploadBytes,
 } from "firebase/storage";
 
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
 
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-
-
-import { globaluse} from "../context/global";
+import { globaluse } from "../context/global";
 import { set } from "date-fns";
 
 const CreateProducts = () => {
@@ -40,15 +38,15 @@ const CreateProducts = () => {
 
   const [success, setSuccess] = useState(false);
   const [bathnumber, setBathnumber] = useState(0);
- ;
-    const [bedsnumber, setBedsnumber] = useState(0);
-    const [roomsnumber, setRoomsnumber] = useState(0);
-    const [guestmaxnumber, setGuestmaxnumber] = useState(0);
-const [villaspace, setVillaspace] = useState(0);
+  const [bedsnumber, setBedsnumber] = useState(0);
+  const [roomsnumber, setRoomsnumber] = useState(0);
+  const [guestmaxnumber, setGuestmaxnumber] = useState(0);
+  const [villaspace, setVillaspace] = useState(0);
 
-
-
- 
+  const [coordinate, setCoordinate] = useState({
+    lat: 0,
+    lng: 0,
+  });
 
   // if  userinfo role is admin then only he can create product else redirect to home page
 
@@ -83,13 +81,12 @@ const [villaspace, setVillaspace] = useState(0);
       price: villaprice,
       images: images,
       villaprice: villaprice,
-     space: villaspace,
-        bedsnumber: bedsnumber,
-        roomsnumber: roomsnumber,
-        guestmaxnumber: guestmaxnumber,
-        bathnumber: bathnumber,
-
-
+      space: villaspace,
+      bedsnumber: bedsnumber,
+      roomsnumber: roomsnumber,
+      guestmaxnumber: guestmaxnumber,
+      bathnumber: bathnumber,
+      coordinate: coordinate,
     };
 
     console.log("villa------>", villa);
@@ -106,147 +103,122 @@ const [villaspace, setVillaspace] = useState(0);
     //  reset all the state
   };
 
-
-
   return (
     <div className="  w-[420px] pb-12  h-auto mx-auto mt-12  font-bold">
       <form id="product-form" className="form-control" onSubmit={handleSubmit}>
         <div className=" my-4">
-       
-
           <TextField
-          required
-          id="outlined-required"
-          label="Required"
-          onChange={(e) => setname(e.target.value)}
-          defaultValue="villa name"
-        />
+            required
+            id="outlined-required"
+            label="Required"
+            onChange={(e) => setname(e.target.value)}
+            defaultValue="villa name"
+          />
 
           {/* <input onChange={(e) => setname(e.target.value)} type="text" /> */}
         </div>
 
         <div className=" my-4">
-          
-       
-<TextField
-          id="outlined-number"
-          label="villaspace"
-          type="number"
-          onChange={(e) => setvillaprice(e.target.value)}
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
-         
+          <TextField
+            id="outlined-number"
+            label="villaspace"
+            type="number"
+            onChange={(e) => setvillaprice(e.target.value)}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
         </div>
-
-       
-
 
         <div className=" my-4">
-          
-
-          
           <TextField
-          id="outlined-number"
-          label="villaspace"
-          type="number"
-          onChange={(e) => setVillaspace(e.target.value)}
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
-
-
+            id="outlined-number"
+            label="villaspace"
+            type="number"
+            onChange={(e) => setVillaspace(e.target.value)}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
         </div>
-
 
         <div className="my-4">
-          
-
           <TextField
-          id="outlined-number"
-          label="villasbathnumber"
-          type="number"
-          onChange={(e) => setBathnumber(e.target.value)}
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
-
-
-        
+            id="outlined-number"
+            label="villasbathnumber"
+            type="number"
+            onChange={(e) => setBathnumber(e.target.value)}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
         </div>
 
-
         <div className=" my-4">
-    
-
-      
           <TextField
-          id="outlined-number"
-          label="villabedsnumber"
-          type="number"
-          onChange={(e) => setBedsnumber(e.target.value)}
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
-
-
-          
+            id="outlined-number"
+            label="villabedsnumber"
+            type="number"
+            onChange={(e) => setBedsnumber(e.target.value)}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
         </div>
 
         <div>
-       
-
           <TextField
-          id="outlined-number"
-          label="villaroomsnumber"
-          type="number"
-          onChange={(e) => setRoomsnumber(e.target.value)}
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
-
-
-          
+            id="outlined-number"
+            label="villaroomsnumber"
+            type="number"
+            onChange={(e) => setRoomsnumber(e.target.value)}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
         </div>
-
-
-
-
 
         <div className="my-4">
-          
-
-
           <TextField
-          id="outlined-number"
-          label="villaguestmaxnumber"
-          type="number"
-          onChange={(e) => setGuestmaxnumber(e.target.value)}
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
-
-        
-
-
-
-
+            id="outlined-number"
+            label="villaguestmaxnumber"
+            type="number"
+            onChange={(e) => setGuestmaxnumber(e.target.value)}
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
         </div>
 
+        <div className=" my-4">
+          <TextField
+            id="outlined-number"
+            label="latitude"
+            type="number"
+            onChange={(e) =>
+              setCoordinate({ ...coordinate, lat: e.target.value })
+            }
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </div>
 
-
-
-
+        <div className=" my-4">
+          <TextField
+            id="outlined-number"
+            label="longitude"
+            type="number"
+            onChange={(e) =>
+              setCoordinate({ ...coordinate, lng: e.target.value })
+            }
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </div>
 
         <input onChange={handleimages} type="file" multiple={true} />
-
-       
 
         {images.length}
 
@@ -260,8 +232,8 @@ onClick={uploadImages}
           <div className=" flex  gap-9">
             {images.map((image, index) => {
               return (
-                <img 
-                key={index}
+                <img
+                  key={index}
                   className="w-12 h-12 rounded-full object-cover"
                   src={image}
                   alt=""

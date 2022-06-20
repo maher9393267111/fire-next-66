@@ -1,6 +1,7 @@
 import React from 'react';
-import { villasdata } from '../utils/data';
+//import { villasdata } from '../utils/data';
 import {  globaluse} from '../context/global';
+
 
 
 import dynamic from 'next/dynamic';
@@ -13,7 +14,7 @@ const VillaWithNoSSR  = dynamic(() => import('../components/singlevilla'), {
 
 const Villas = () => {
 
-const {name} =  globaluse()
+const {name,villas} =  globaluse()
 
 
 
@@ -28,7 +29,7 @@ const {name} =  globaluse()
 
          
 
-                {villasdata.map((villa, index) => {
+                {villas.map((villa, index) => {
                     return (
                         <div key={index} className="villa">
 

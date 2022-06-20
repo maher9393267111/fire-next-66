@@ -53,19 +53,19 @@ const Singlevilla = ({ villa }) => {
 
       <div>
         <div>
-          <img src={villa.image} alt={villa.name} />
+          <img src={villa.images[0]} alt={villa.name} />
 
           <div className="villa-info">
             <h2>{villa.name}</h2>
 
-            <h3>{villa.koordinat.lat}</h3>
-            <h3>{villa.koordinat.lng}</h3>
+            <h3>{villa.coordinate.lat}</h3>
+            <h3>{villa.coordinate.lng}</h3>
             <h3>{villa.price}</h3>
           </div>
 
           <div>
             <MapContainer
-              center={[villa.koordinat.lat, villa.koordinat.lng]}
+              center={[villa.coordinate.lat, villa.coordinate.lng]}
               zoom={13}
               scrollWheelZoom={false}
             >
@@ -78,7 +78,7 @@ const Singlevilla = ({ villa }) => {
                 // draggable={true}
                 // onDragend={updatePosition}
                 ref={markerRef}
-                position={[villa.koordinat.lat, villa.koordinat.lng]}
+                position={[villa.coordinate.lat, villa.coordinate.lng]}
               >
                 <Popup>
                   <p className="popup">villa image</p>

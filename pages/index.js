@@ -7,6 +7,7 @@ import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import moment from "moment";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
+import {globaluse} from "../context/global";
 export default function Home() {
   const [selectedDate, setSelectedDate] = useState({
     year: moment().year(),
@@ -21,6 +22,10 @@ export default function Home() {
     month: moment().month() + 1,
     day: `${moment().date() + 12}`,
   };
+
+
+const {villas} = globaluse();
+
 
   const disabledTimes = [];
 
@@ -67,22 +72,9 @@ export default function Home() {
             disabledDays={disabledDays}
           />
 
-          {/* <Calendar
-              onChange={handleCalendar}
-              calendarClassName='border-2 border-pink-200 h-[100% dark:border-neutral-900'
-              colorPrimary='#f8a4d1'
-              value={selectedDate}
-              minimumDate={utils().getToday()  }
-              maximumDate= { max }
-           
-              disabledDays={disabledDays}
-            /> */}
+         
         </div>
-        <Stack spacing={2} direction="row">
-          <Button variant="text">Text</Button>
-          <Button variant="contained">Contained</Button>
-          <Button variant="outlined">Outlined</Button>
-        </Stack>
+       
       </div>
     </div>
   );

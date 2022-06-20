@@ -124,12 +124,12 @@ function Home() {
                     />
                     <Marker
                     icon={pinMB}
-                   // eventHandlers={eventHandlers}
+                  
 
                         draggable={true}
                         onDragend={changeMarkerPos}
                         ref={markerRef}
-                      //  position={position}
+                     
 
                         position={[markerPos.Lat, markerPos.lang]}
                       >
