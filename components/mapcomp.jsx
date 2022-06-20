@@ -1,58 +1,28 @@
-work
-
-import \* as React from 'react';
-
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers-pro';
-//import { AdapterDateFns } from '@mui/x-date-pickers-pro/AdapterDateFns';
-import { DateRange } from '@mui/x-date-pickers-pro/DateRangePicker';
-import { StaticDateRangePicker } from '@mui/x-date-pickers-pro/StaticDateRangePicker';
-
-export default function StaticDateRangePickerDemo() {
-const [value, setValue] = React.useState([null, null]);
-
-return (
-<LocalizationProvider
-dateAdapter={AdapterDateFns}
-localeText={{ start: 'Check-in', end: 'Check-out' }}
-
->
-
-    <DateRangePicker
-      value={value}
-      onChange={(newValue) => {
-        setValue(newValue);
-      }}
-      renderInput={(startProps, endProps) => (
-        <React.Fragment>
-          <TextField {...startProps} />
-          <Box sx={{ mx: 2 }}> to </Box>
-          <TextField {...endProps} />
-        </React.Fragment>
-      )}
-    />
-
-  </LocalizationProvider>
-  
-  );
-}
------------------------------------------------------------------------
-
-- const max = moment().add(12, 'days').toDate();
 
 
-
-- map component
-----------------
-----------------
 
 import { useState,useEffect,useRef } from 'react'
-
 import { MapContainer, TileLayer, useMap,Marker,Popup } from 'react-leaflet'
 
 function Home() {
+
+
+   
+   //  const isSSR = typeof window === `undefined`
+  //  console.log(isSSR)
+
+    const [isSSR, setisSSR] = useState(true)
+
+    useEffect(() => {
+
+        setisSSR(false)
+        console.log('====>',isSSR)
+
+
+    }, [])
+
+
+ 
 
 const [markerPos, setMarkerPos] = useState({
 lang: 29.916668,
@@ -93,6 +63,8 @@ setMarkerPos(newPos);
 return (
 <div className="App">
 <header className="App-header">
+
+    {!isSSR && 'helloo world'}
 
 <MapContainer
 center={[markerPos.Lat, markerPos.lang]}
@@ -135,4 +107,4 @@ zoom={13} scrollWheelZoom={false}>
 
 export default Home
 
----
+
