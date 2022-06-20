@@ -18,7 +18,7 @@ export default function Home() {
 
   var date = new Date();
 
-  // let minimumDate = date.getDate() + 3;
+  
    const max = moment().add(12, 'days').toDate();
   // minimumDate.setDate(minimumDate.getDate() + 1);
   // let maxDate = new Date(
@@ -26,6 +26,14 @@ export default function Home() {
   //   minimumDate.getMonth() + 1,
   //   0
   // );
+
+
+
+  const maximumDate = {
+    year: moment().year(),
+    month: moment().month() + 1,
+    day: `${moment().date() + 12}`,
+  }
 
 
 
@@ -65,7 +73,20 @@ export default function Home() {
 
 
     <div className='flex flex-col'>
-            <Calendar
+
+
+    <Calendar
+      value={selectedDate}
+      onChange={handleCalendar}
+      minimumDate={utils().getToday()}
+      maximumDate={ maximumDate }
+      shouldHighlightWeekends
+      
+      disabledDays={disabledDays}
+    />
+
+
+            {/* <Calendar
               onChange={handleCalendar}
               calendarClassName='border-2 border-pink-200 h-[100% dark:border-neutral-900'
               colorPrimary='#f8a4d1'
@@ -74,7 +95,7 @@ export default function Home() {
               maximumDate= { max }
            
               disabledDays={disabledDays}
-            />
+            /> */}
             </div>
 
 

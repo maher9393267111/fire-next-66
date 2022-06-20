@@ -1,3 +1,5 @@
+work
+
 import * as React from 'react';
 
 import Box from '@mui/material/Box';
@@ -12,23 +14,27 @@ export default function StaticDateRangePickerDemo() {
   const [value, setValue] = React.useState([null, null]);
 
   return (
-
-   
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <StaticDateRangePicker
-        displayStaticWrapperAs="desktop"
-        value={value}
-        onChange={(newValue) => {
-          setValue(newValue);
-        }}
-        renderInput={(startProps, endProps) => (
-          <React.Fragment>
-            <TextField {...startProps} />
-            <Box sx={{ mx: 2 }}> to </Box>
-            <TextField {...endProps} />
-          </React.Fragment>
-        )}
-      />
-    </LocalizationProvider>
+    <LocalizationProvider
+    dateAdapter={AdapterDateFns}
+    localeText={{ start: 'Check-in', end: 'Check-out' }}
+  >
+    <DateRangePicker
+      value={value}
+      onChange={(newValue) => {
+        setValue(newValue);
+      }}
+      renderInput={(startProps, endProps) => (
+        <React.Fragment>
+          <TextField {...startProps} />
+          <Box sx={{ mx: 2 }}> to </Box>
+          <TextField {...endProps} />
+        </React.Fragment>
+      )}
+    />
+  </LocalizationProvider>
+  
   );
 }
+-----------------------------------------------------------------------
+
+
