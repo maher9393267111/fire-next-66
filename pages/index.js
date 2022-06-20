@@ -1,8 +1,41 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import { useState,useEffect } from 'react';
 import styles from '../styles/Home.module.css'
-
+import { Calendar, utils } from "react-modern-calendar-datepicker";
+import "react-modern-calendar-datepicker/lib/DatePicker.css";
+import moment from "moment";
 export default function Home() {
+
+
+  const [selectedDate, setSelectedDate] = useState({
+    year: moment().year(),
+    month: moment().month() + 1,
+    day: moment().date(),
+  });
+
+
+  const disabledTimes = [];
+
+  const [disabledDays, setDisabledDays] = useState([]);
+
+  const [unavailableTimes, setUnavailableTimes] = useState([]);
+
+
+
+
+
+  const handleCalendar = (e) => {
+    setSelectedDate(e);
+    console.log(e);  // handle selected date
+    setDisabledDays([...disabledDays, e]);
+
+  };
+
+
+
+
+
   return (
     <div className={styles.container}>
       <Head>
@@ -11,12 +44,25 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-    <div>
-      Hello maher bey1 qwqw 11111111111111111111111
-      <div>
-        12323
-      </div>
-    </div>
+    
+ <div>
+    hello man
+
+
+    <div className='flex flex-col'>
+            <Calendar
+              onChange={handleCalendar}
+              calendarClassName='border-2 border-pink-200 h-[100% dark:border-neutral-900'
+              colorPrimary='#f8a4d1'
+              value={selectedDate}
+              minimumDate={utils().getToday()}
+             // maximumDate={utils().addMonths(utils().getToday(), 6)}
+              disabledDays={disabledDays}
+            />
+            </div>
+
+
+ </div>
 
 
     </div>
