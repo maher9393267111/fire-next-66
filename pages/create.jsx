@@ -16,24 +16,36 @@ import {
   uploadBytes,
 } from "firebase/storage";
 
-import { useAuth } from "../context/global";
+
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+
+
+import { globaluse} from "../context/global";
+import { set } from "date-fns";
 
 const CreateProducts = () => {
   const [info, setinfo] = useState("");
   const [name, setname] = useState("");
-  const [villaprice, setvillaprice] = useState("");
+  const [villaprice, setvillaprice] = useState(0);
   const [productTitle, setProductTitle] = useState(
     "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat placeat similique dicta nulla praesentium deserunt. Corporis repellendus deleniti dolores eligendi."
   );
 
   const [productimagesurl, setproductimagesurl] = useState("");
-  const [childtcategory, setchildcategory] = useState([]);
-  const [selectedcategory, setselectedcategory] = useState("");
+
   const [fileurl, setfileurl] = useState("");
   const [images, setImages] = useState([]);
   const [imageColor, setImagecolor] = useState("");
-  const [productsize, setProductsize] = useState([]);
+
   const [success, setSuccess] = useState(false);
+  const [bathnumber, setBathnumber] = useState(0);
+ ;
+    const [bedsnumber, setBedsnumber] = useState(0);
+    const [roomsnumber, setRoomsnumber] = useState(0);
+    const [guestmaxnumber, setGuestmaxnumber] = useState(0);
+const [villaspace, setVillaspace] = useState(0);
+
 
 
  
@@ -70,6 +82,14 @@ const CreateProducts = () => {
       name: name,
       price: villaprice,
       images: images,
+      villaprice: villaprice,
+     space: villaspace,
+        bedsnumber: bedsnumber,
+        roomsnumber: roomsnumber,
+        guestmaxnumber: guestmaxnumber,
+        bathnumber: bathnumber,
+
+
     };
 
     console.log("villa------>", villa);
@@ -89,29 +109,144 @@ const CreateProducts = () => {
 
 
   return (
-    <div className="  w-[420px]  h-auto mx-auto mt-12  font-bold">
+    <div className="  w-[420px] pb-12  h-auto mx-auto mt-12  font-bold">
       <form id="product-form" className="form-control" onSubmit={handleSubmit}>
-        <div>
-          <h1>name</h1>
-          <input onChange={(e) => setname(e.target.value)} type="text" />
+        <div className=" my-4">
+       
+
+          <TextField
+          required
+          id="outlined-required"
+          label="Required"
+          onChange={(e) => setname(e.target.value)}
+          defaultValue="villa name"
+        />
+
+          {/* <input onChange={(e) => setname(e.target.value)} type="text" /> */}
         </div>
 
-        <div>
-          <h1>price</h1>
-          <input
-            onChange={(e) => setvillaprice(e.target.value)}
-            type="number"
-          />
+        <div className=" my-4">
+          
+       
+<TextField
+          id="outlined-number"
+          label="villaspace"
+          type="number"
+          onChange={(e) => setvillaprice(e.target.value)}
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+         
         </div>
 
        
 
-        <input onChange={handleimages} type="file" multiple={true} />
+
+        <div className=" my-4">
+          
+
+          
+          <TextField
+          id="outlined-number"
+          label="villaspace"
+          type="number"
+          onChange={(e) => setVillaspace(e.target.value)}
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+
+
+        </div>
+
+
+        <div className="my-4">
+          
+
+          <TextField
+          id="outlined-number"
+          label="villasbathnumber"
+          type="number"
+          onChange={(e) => setBathnumber(e.target.value)}
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+
+
+        
+        </div>
+
+
+        <div className=" my-4">
+    
+
+      
+          <TextField
+          id="outlined-number"
+          label="villabedsnumber"
+          type="number"
+          onChange={(e) => setBedsnumber(e.target.value)}
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+
+
+          
+        </div>
 
         <div>
-          <h1>image color {imageColor}</h1>
+       
+
+          <TextField
+          id="outlined-number"
+          label="villaroomsnumber"
+          type="number"
+          onChange={(e) => setRoomsnumber(e.target.value)}
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+
+
+          
         </div>
-      
+
+
+
+
+
+        <div className="my-4">
+          
+
+
+          <TextField
+          id="outlined-number"
+          label="villaguestmaxnumber"
+          type="number"
+          onChange={(e) => setGuestmaxnumber(e.target.value)}
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+
+        
+
+
+
+
+        </div>
+
+
+
+
+
+
+        <input onChange={handleimages} type="file" multiple={true} />
+
+       
 
         {images.length}
 

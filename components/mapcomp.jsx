@@ -1,11 +1,51 @@
 
 
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef,useMemo } from 'react'
 import Head from 'next/head'
 import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
+import L from "leaflet";
 
 function Home() {
+
+
+    const markericon =  "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png";
+ 
+    const pinMB = L.icon({
+      iconUrl: markericon,
+      iconSize: [24, 41],
+      iconAnchor: [0, 44],
+      popupAnchor: [12, -40],
+      shadowUrl: null,
+      shadowSize: null,
+      shadowAnchor: null,
+    });
+
+
+    const center = {
+     
+        lat: 40.766666,
+        lng: 29.916668,
+     
+      }
+
+
+    const [position, setPosition] = useState(center)
+    const markerRef2 = useRef(null)
+    const eventHandlers = useMemo(
+      () => ({
+        dragend() {
+          const marker = markerRef2.current
+         
+          if (marker != null) {
+            console.log('----->',marker.getLatLng())
+
+            setPosition(marker.getLatLng())
+          }
+        },
+      }),
+      [],
+    )
 
 
 
@@ -32,21 +72,17 @@ function Home() {
 
     }
 
+    const markerRef = useRef();
+    const fixedMarkerRef = useRef();
+
+
     useEffect(() => {
         console.log(`lat diff: ${markerPos.Lat - fixedMarkerPos.Lat}, lng diff: ${markerPos.lang - fixedMarkerPos.lang}`);
     }, [markerPos, fixedMarkerPos])
 
-    const markerRef = useRef();
-    const fixedMarkerRef = useRef();
+   
 
-    const updatePosition = () => {
-        const marker = markerRef.current
-        if (marker != null) {
-            const newPos = { ...marker.leafletElement.getLatLng() };
-            console.log('-----------------here now', newPos);
-            setMarkerPos(newPos);
-        }
-    }
+ 
 
     return (
         <div className="App">
@@ -87,20 +123,22 @@ function Home() {
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     />
                     <Marker
+                    icon={pinMB}
+                   // eventHandlers={eventHandlers}
 
                         draggable={true}
-                        onDragend={updatePosition}
+                        onDragend={changeMarkerPos}
                         ref={markerRef}
-                        position={[markerPos.Lat, markerPos.lang]}>
+                      //  position={position}
+
+                        position={[markerPos.Lat, markerPos.lang]}
+                      >
                         <Popup>
                             A pretty CSS3 popup. <br /> Easily customizable.
                         </Popup>
                     </Marker>
 
-                    <Marker
-                        position={[fixedMarkerPos.Lat, fixedMarkerPos.lang]}
-                        ref={fixedMarkerRef}
-                    />
+                
 
                 </MapContainer>,
 
