@@ -1,8 +1,26 @@
 import React from 'react';
 import { useState, useEffect, useRef } from 'react'
 import Head from 'next/head';
+import L from 'leaflet';
 import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
+
+
+const  markericon = 'https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png'
 const Singlevilla = ({ villa }) => {
+
+
+    const pinMB = L.icon({
+        iconUrl: markericon,
+        iconSize: [24, 41],
+        iconAnchor: [0, 44],
+        popupAnchor: [12, -40],
+        shadowUrl: null,
+        shadowSize: null,
+        shadowAnchor: null
+      });
+
+
+ 
 
     const [markerPos, setMarkerPos] = useState({
         lang: 29.916668,
@@ -70,14 +88,15 @@ const Singlevilla = ({ villa }) => {
                             />
                             <Marker
 
+                                icon={pinMB}
                                 // draggable={true}
                                 // onDragend={updatePosition}
                                 ref={markerRef}
                                 position={[villa.koordinat.lat, villa.koordinat.lng]}
                             >
                                 <Popup>
-                                <p className="popup">villa image</p>
-            <img className="popup-img   w-[77px]  h-[77px]" src={villa.image} alt="Sacré-Coeur" />
+                                    <p className="popup">villa image</p>
+                                    <img className="popup-img   w-[77px]  h-[77px]" src={villa.image} alt="Sacré-Coeur" />
                                 </Popup>
                             </Marker>
 
