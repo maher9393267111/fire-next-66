@@ -1,20 +1,18 @@
 import React from 'react';
-    import { villasdata } from '../utils/data';
-    //import VillaCard from '../components/singlevilla';
-  import dynamic from 'next/dynamic'
-import { Suspense } from 'react'
+import { villasdata } from '../utils/data';
 
-// const DynamicHeader = dynamic(() => import('../components/singlevilla'), {
-//   suspense: true,
-//   ssr:false
-  
-// },
 
-// )
+
+import dynamic from 'next/dynamic';
+import { useState, useEffect } from 'react';
+const VillaWithNoSSR  = dynamic(() => import('../components/singlevilla'), {
+    ssr: false
+  });
+
+
+
 const Villas = () => {
 
-    //  const isSSR = typeof window === `undefined`
-    // console.log(isSSR)
 
 
 
@@ -28,20 +26,20 @@ const Villas = () => {
 
             <div className="villas-container">
 
+         
 
                 {villasdata.map((villa, index) => {
                     return (
                         <div key={index} className="villa">
-                            
-                            {/* <Suspense fallback={`Loading...`}> */}
-  {/* { !isSSR  &&   <DynamicHeader villa ={villa} />  }   */}
-    {/* </Suspense> */}
-                                </div>
-                    )})}
 
-                    </div>
+                            <VillaWithNoSSR villa={villa} />
+                        </div>
+                    )
+                })}
 
-                           
+            </div>
+
+
 
         </div>
     );
