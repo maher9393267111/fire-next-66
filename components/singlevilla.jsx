@@ -3,10 +3,16 @@ import { useState, useEffect, useRef } from "react";
 import Head from "next/head";
 import L from "leaflet";
 import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
-
+import { Calendar, utils } from "react-modern-calendar-datepicker";
+import moment from "moment";
+import { globaluse } from "../context/global";
 const markericon =
   "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png";
+
+
 const Singlevilla = ({ villa }) => {
+
+  const { senddisabledDays} = globaluse()
   const pinMB = L.icon({
     iconUrl: markericon,
     iconSize: [24, 41],
@@ -27,6 +33,52 @@ const Singlevilla = ({ villa }) => {
   });
 
   const markerRef = useRef();
+
+
+  const [selectedDate, setSelectedDate] = useState({
+    year: moment().year(),
+    month: moment().month() + 1,
+    day: moment().date(),
+  });
+
+  var date = new Date();
+
+  const maximumDate = {
+    year: moment().year(),
+    month: moment().month() + 1,
+    day: `${moment().date() + 12}`,
+  };
+
+
+
+
+
+  const disabledTimes = [];
+
+  const [disabledDays, setDisabledDays] = useState([]);
+
+  const [unavailableTimes, setUnavailableTimes] = useState([]);
+
+  const handleCalendar = (e) => {
+    setSelectedDate(e);
+    console.log(e); // handle selected date
+    setDisabledDays([...disabledDays, e]);
+  };
+
+
+
+// send disabledDays to the firebase
+
+const sendDisabledDays = () => {
+
+  console.log('---->',disabledDays);
+  console.log(villa.id);
+  senddisabledDays( villa.id,disabledDays);
+
+}
+
+
+
 
   return (
     <div>
@@ -55,6 +107,10 @@ const Singlevilla = ({ villa }) => {
         <div>
           <img src={villa.images[0]} alt={villa.name} />
 
+
+<div className=" flex mr-6 ml-6 pb-6 justify-between ">
+
+
           <div className="villa-info">
             <h2>{villa.name}</h2>
 
@@ -62,6 +118,35 @@ const Singlevilla = ({ villa }) => {
             <h3>{villa.coordinate.lng}</h3>
             <h3>{villa.price}</h3>
           </div>
+
+
+{/* // data picke- */}
+
+<div>
+
+<div className="flex flex-col">
+          <Calendar
+            value={selectedDate}
+            onChange={handleCalendar}
+            minimumDate={utils().getToday()}
+            maximumDate={maximumDate}
+            shouldHighlightWeekends
+           
+            //disabledDays={disabledDays}
+            disabledDays={villa.disabledDays}
+          />
+
+<div>
+  <button
+  onClick={sendDisabledDays}
+  >make check in</button>
+</div>
+         
+        </div>
+</div>
+
+</div>
+
 
           <div>
             <MapContainer

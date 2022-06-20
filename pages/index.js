@@ -9,6 +9,9 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import {globaluse} from "../context/global";
 export default function Home() {
+
+
+  
   const [selectedDate, setSelectedDate] = useState({
     year: moment().year(),
     month: moment().month() + 1,
@@ -61,7 +64,7 @@ const {villas} = globaluse();
       </Head>
 
       <div>
-        hello man
+        
         <div className="flex flex-col">
           <Calendar
             value={selectedDate}
