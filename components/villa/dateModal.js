@@ -49,7 +49,41 @@ export default function BasicModal({villadiabledays,villaid}) {
       const handleCalendar = (e) => {
         setSelectedDate(e);
         console.log(e); // handle selected date
-        setDisabledDays([...disabledDays, e]);
+       // setDisabledDays([...disabledDays, e]);
+
+        
+ const existcheck = disabledDays.filter((day) => {
+  return  day.day === e.day  && day.month === e.month  
+ //   console.log(day.day === e.day,day,e.day);
+    }
+)
+
+console.log("existcheck", existcheck);
+
+        if(existcheck.length === 0){
+
+            setDisabledDays([...disabledDays, e]);
+        }
+        else{
+            setDisabledDays(disabledDays.filter((day) => {
+                return  day.day !== e.day  || day.month !== e.month
+
+            }
+            ))
+        }
+
+
+
+
+
+
+console.log("disabledDays", disabledDays);
+
+         
+            
+        
+           
+
       };
     
 
@@ -60,6 +94,7 @@ export default function BasicModal({villadiabledays,villaid}) {
     console.log("---->", disabledDays);
     console.log(villaid);
     senddisabledDays(villaid, disabledDays);
+    setDisabledDays([]);
   };
 
 
@@ -74,11 +109,26 @@ export default function BasicModal({villadiabledays,villaid}) {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-          select you dates
+          
+<div className=' flex justify-between ml-6 mr-6'>
+    <div>
+
+    </div>
+
+<div>
+    <img className=' absolute w-12 h-12' src="https://cdn2.iconfinder.com/data/icons/top-search/128/_delete_close_remove_circle_cancel_delete_trash-256.png" alt="" />
+</div>
+
+</div>
+
+
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
            
     {/* // data picke- */}
+
+
+
 
     <div>
               <div className="flex flex-col">
@@ -93,6 +143,7 @@ export default function BasicModal({villadiabledays,villaid}) {
                 />
 
                 <div>
+                    {disabledDays.length}
                   <button onClick={sendDisabledDays}>make check in</button>
                 </div>
               </div>

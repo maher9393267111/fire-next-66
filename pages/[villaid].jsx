@@ -44,6 +44,7 @@ const Villaid = () => {
   const [allimages, setAllImages] = useState([]);
   const [geoData, setGeoData] = useState({ lat: null, lng: null });
 const [villadiabledays, setVilladiabledays] = useState([]);
+
   useEffect(() => {
     if (Villaid) {
       console.log(" Villa id is changeddd--->⏩⏩⏩   :--------->", Villaid);
@@ -140,11 +141,13 @@ const handleClose = () => setOpen(false);
                   className=" bg-[#1565c0]" variant="contained">Make rezervasyon</Button>
 
 <div>
+    { open && 
     <DateWithNoSSR 
   
 villadiabledays ={villadiabledays}  
 villaid={Villaid}
     />
+}
 </div>
 
 
