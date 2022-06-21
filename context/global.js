@@ -131,7 +131,7 @@ const subContextComponent = ({ children }) => {
   // send disbled days to the firebase
 
   const senddisabledDays = async (villaId, disabled) => {
-    console.log("disabledDays in global----->", disabled);
+    console.log("disabledDays in global 🛍️🛍️🛍️----->", disabled);
 
     const userpath = doc(db, "villas", `${villaId}`);
     const d = await (await getDoc(userpath)).data()?.disabledDays;
@@ -140,10 +140,11 @@ const subContextComponent = ({ children }) => {
 
     const joinded = d?.concat(disabled);
 
-    console.log("joinded in global----->", joinded);
+
+    console.log("joinded in global is 🔥🔥 ----->", joinded);
 
     await updateDoc(doc(db, "villas", villaId), {
-      disabledDays: disabled,
+      disabledDays: [...joinded , ...disabled],
     })
       .then(() => {
         console.log("disabledDays is updated");

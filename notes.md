@@ -323,3 +323,28 @@ const {villas} = globaluse();
           </div>
         </div>
       </div>
+
+
+      --------------------------------------------
+
+
+       {/* <div> */}
+              {/* <div className="flex flex-col">
+                <Calendar
+                  value={selectedDate}
+                  onChange={handleCalendar}
+                  minimumDate={utils().getToday()}
+                  maximumDate={maximumDate}
+                  shouldHighlightWeekends
+                  //disabledDays={disabledDays}
+                  disabledDays={villadiabledays}
+                />
+
+<div className="  pb-6 flex mr-6 ml-6 justify-between">
+
+
+                <div>
+              <p className=" font-bold  text-red-500">Days : {disabledDays.length} </p>    
+                  <p className=" font-bold text-xl text-teal-700">Total Price  {disabledDays.length * villaprice}</p>
+                  {/* <button onClick={sendDisabledDays}>make check in</button> */}
+                {/* </div> */}

@@ -7,6 +7,10 @@ import Button from "@mui/material/Button";
 import { Calendar, utils } from "react-modern-calendar-datepicker";
 import moment from "moment";
 import { useState } from "react";
+import DatePicker  from "react-datepicker";
+
+
+import "react-datepicker/dist/react-datepicker.css";
 
 
 import { globaluse,openmodal, setOpenmodal } from "../../context/global";
@@ -76,9 +80,11 @@ export default function BasicModal({ villadiabledays, villaid ,villaprice, }) {
   // send disabledDays to the firebase
 
   const sendDisabledDays = () => {
-    console.log("---->", disabledDays);
+    console.log("----> 🛍️ ---- 🛍️", disabledDays);
     console.log(villaid);
     senddisabledDays(villaid, disabledDays);
+
+    console.log("---->  🛍️🛍️🛍️🛍️ 🛍️", villadiabledays,date);
     setDisabledDays([]);
   };
 
@@ -91,65 +97,69 @@ console.log("close -------");
 }
 
 
+//
+
+const [startDate, setStartDate] = useState(new Date());
+const [endDate, setEndDate] = useState(null);
+const onChange = (dates) => {
+  const [start, end] = dates;
+  setStartDate(start);
+  setEndDate(end);
+ // set disabledDays  friom start to end
+    const disabledDaysarray = [];
+    const startDate = new Date(start);
+  
+    const endDate = new Date(end);
+    const diff = endDate.getTime() - startDate.getTime();
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    for (let i = 0; i < days; i++) {
+        const day = new Date(startDate);
+        day.setDate(day.getDate() + i);
+        disabledDaysarray.push(day);
+        setDisabledDays(disabledDaysarray);
+    }
+
+  
+
+        console.log("disabledDays 🔥🔥🔥", disabledDays);
+
+}
+
+
+
+
+
   return (
     <div>
       {/* <Button onClick={handleOpen}>Open modal</Button> */}
       <div>
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            <div className=" flex justify-between ml-6 mr-6">
-              <div></div>
-
-              <div
-              onClick={handleclose }
-              >
-                <img
-                
-                  className=" absolute w-12 h-12"
-                  src="https://cdn2.iconfinder.com/data/icons/top-search/128/_delete_close_remove_circle_cancel_delete_trash-256.png"
-                  alt=""
-                />
-              </div>
-            </div>
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            {/* // data picke- */}
-
-            <div>
-              <div className="flex flex-col">
-                <Calendar
-                  value={selectedDate}
-                  onChange={handleCalendar}
-                  minimumDate={utils().getToday()}
-                  maximumDate={maximumDate}
-                  shouldHighlightWeekends
-                  //disabledDays={disabledDays}
-                  disabledDays={villadiabledays}
-                />
-
-<div className="  pb-6 flex mr-6 ml-6 justify-between">
-
-
-                <div>
-              <p className=" font-bold  text-red-500">Days : {disabledDays.length} </p>    
-                  <p className=" font-bold text-xl text-teal-700">Total Price  {disabledDays.length * villaprice}</p>
-                  {/* <button onClick={sendDisabledDays}>make check in</button> */}
-                </div>
+          
+          <div>
+          <DatePicker
+      selected={startDate}
+      onChange={onChange}
+      startDate={startDate}
+      endDate={endDate}
+     // excludeDates={ villadiabledays}
+     excludeDates={villadiabledays}
+      selectsRange
+      maxDate={ maximumDate }
+      selectsDisabledDaysInRange
+      inline
+    />
+          </div>
 
 <div>
-<Button 
-                  onClick={sendDisabledDays}
-                  
-                  className=" mt-[6px] bg-[#1565c0]" variant="contained">make check in</Button>
-
+    <button
+    onClick={sendDisabledDays}
+    >
+        send disable days  
+    </button>
 </div>
 
-</div>
 
-              </div>
-            </div>
-          </Typography>
-        </Box>
+          </Box>
       </div>
     </div>
   );
