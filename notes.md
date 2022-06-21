@@ -283,3 +283,43 @@ const {villas} = globaluse();
 
 
 ==================================
+
+
+  <div>
+        <div>
+          <div className="  grid sm:grid-cols1  shadow-2xl  mt-12  lg:min-h-[400px] ml-6 mr-6  pb-12  lg:grid-cols-2">
+            {/* -----image--- */}
+
+            <div className="  lg:mt-12  sm:w-full">
+              <img
+                className="  ml-8 w-[494px]  h-[322px] object-cover"
+                src={villa?.images[0]}
+                alt=""
+              />
+            </div>
+
+            {/* info and map--- */}
+
+            <div className=" sm:ml-12 lg:ml-4 sm:mt-12 text-xl  sm:w-full mr-4">
+              <div className="  ">
+                <p>Name: {villa?.name}</p>
+
+                <p> Location : Sapanca 2km from center</p>
+
+                <p>Rooms number {villa?.roomsnumber}</p>
+
+                <p>Price: {villa?.price}$</p>
+
+                <p className=" w-[90%] text-left  mmy-4">
+                  Descreption: s simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum has been the industry's
+                  standard dummy text ever since the 1500s, when an unknown
+                  printer took a galley
+                </p>
+
+                <p>{villa?.gu}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
