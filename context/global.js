@@ -46,6 +46,7 @@ const subContextComponent = ({ children }) => {
   const [currentUser, setUser] = useState({});
   const [userinfo, setUserInfo] = useState({});
   const [disbledaysischange, setDisbledaysischange] = useState();
+  const [openmodal, setOpenmodal] = useState(false);
 
   //--- Sign in with google ---
 
@@ -163,6 +164,7 @@ const subContextComponent = ({ children }) => {
     logout,
     currentUser,
     userinfo,
+    openmodal, setOpenmodal
   };
 
   return (

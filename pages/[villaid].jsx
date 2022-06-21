@@ -37,13 +37,14 @@ const Villaid = () => {
   const router = useRouter();
   const Villaid = router.query.villaid;
   console.log("single villa id---->", Villaid);
-  const {disbledaysischange, setDisbledaysischange} = globaluse();
+  const {disbledaysischange, setDisbledaysischange,openmodal, setOpenmodal} = globaluse();
 
   const [villa, setVilla] = useState({});
   const [Selectedimage, setSelectedImage] = useState(0);
   const [allimages, setAllImages] = useState([]);
   const [geoData, setGeoData] = useState({ lat: null, lng: null });
 const [villadiabledays, setVilladiabledays] = useState([]);
+const [villaprice ,setvillaprice] =  useState(0);
 
   useEffect(() => {
     if (Villaid) {
@@ -62,6 +63,7 @@ const [villadiabledays, setVilladiabledays] = useState([]);
         lng: docSnap.data().coordinate.lng,
       });
         setVilladiabledays(docSnap.data().disabledDays);
+        setvillaprice(docSnap.data().price);
 
       console.log("villa information issss- :--------->⏩", villa);
     });
@@ -74,8 +76,8 @@ const [villadiabledays, setVilladiabledays] = useState([]);
 // datec celandeer modal functions----
 
 const [open, setOpen] = React.useState(false);
-const handleOpen = () => setOpen(true);
-const handleClose = () => setOpen(false);
+const handleOpen = () => setOpenmodal(true);
+
 
 //-------------------
 
@@ -117,7 +119,7 @@ const handleClose = () => setOpen(false);
 
                   <p className=" w-[90%] text-left  my-4">
                     Descreption: s simply dummy text of the printing and
-                    typesetting industry. Lorem Ipsum has been the industry's
+                    typesetting industry. Lorem Ipsum has been the industrys
                     standard dummy text ever since the 1500s, when an unknown
                     printer took a galley
                   </p>
@@ -138,14 +140,16 @@ const handleClose = () => setOpen(false);
                   <Button 
                   onClick={handleOpen}
                   
-                  className=" bg-[#1565c0]" variant="contained">Make rezervasyon</Button>
+                  className=" bg-[#1565c0]" variant="contained">Make rezervasyon {openmodal? ' true' : 'false'}</Button>
 
 <div>
-    { open && 
+    { openmodal && 
     <DateWithNoSSR 
   
 villadiabledays ={villadiabledays}  
 villaid={Villaid}
+villaprice={villaprice}
+
     />
 }
 </div>
