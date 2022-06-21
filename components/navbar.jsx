@@ -1,6 +1,12 @@
 import React from 'react';
-
+import { useState, useEffect } from 'react';
+import { globaluse } from '../context/global';
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 const Navbar = () => {
+
+    const { signInWithGoogle,currentUser,userinfo,logout } = globaluse()
+
     return (
        <div>
         <div>
@@ -18,7 +24,7 @@ const Navbar = () => {
 
 
 <div
-className=' relative top-4 text-[27px] font-semibold'
+className='relative top-4 text-[27px] font-semibold'
 ><p>Travel</p></div>
 
     </div>
@@ -27,8 +33,34 @@ className=' relative top-4 text-[27px] font-semibold'
 <div>
     <h1
     
-    className=' translate-y-[23px] text-[21px]   mr-6 font-semibold'
-    >login</h1>
+    className='translate-y-[7px] text-[21px]   mr-6 font-semibold'
+    >
+    {currentUser?.email ? 
+(<div >
+  <Stack spacing={2} direction="row">
+      <Button
+      onClick={logout}
+      className=' mt-2 font-bold' variant="success">Logout</Button>
+     <div><img className=' w-12 h-12 rounded-full' src={userinfo?.image} alt="" /></div>
+    </Stack>
+
+
+</div>)
+:
+(<div>
+
+<Button
+      onClick={signInWithGoogle}
+      className=' mt-2 font-bold' variant="success">Login</Button>
+
+
+</div>)    
+
+}
+
+   
+    
+    </h1>
 </div>
 
 

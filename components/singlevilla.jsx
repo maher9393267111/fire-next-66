@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect, useRef } from "react";
 import Head from "next/head";
 import L from "leaflet";
+import Script from 'next/script'
 import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
 import { Calendar, utils } from "react-modern-calendar-datepicker";
 import moment from "moment";
@@ -9,10 +10,8 @@ import { globaluse } from "../context/global";
 const markericon =
   "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png";
 
-
 const Singlevilla = ({ villa }) => {
-
-  const { senddisabledDays} = globaluse()
+  const { senddisabledDays } = globaluse();
   const pinMB = L.icon({
     iconUrl: markericon,
     iconSize: [24, 41],
@@ -34,7 +33,6 @@ const Singlevilla = ({ villa }) => {
 
   const markerRef = useRef();
 
-
   const [selectedDate, setSelectedDate] = useState({
     year: moment().year(),
     month: moment().month() + 1,
@@ -49,10 +47,6 @@ const Singlevilla = ({ villa }) => {
     day: `${moment().date() + 12}`,
   };
 
-
-
-
-
   const disabledTimes = [];
 
   const [disabledDays, setDisabledDays] = useState([]);
@@ -65,20 +59,13 @@ const Singlevilla = ({ villa }) => {
     setDisabledDays([...disabledDays, e]);
   };
 
+  // send disabledDays to the firebase
 
-
-// send disabledDays to the firebase
-
-const sendDisabledDays = () => {
-
-  console.log('---->',disabledDays);
-  console.log(villa.id);
-  senddisabledDays( villa.id,disabledDays);
-
-}
-
-
-
+  const sendDisabledDays = () => {
+    console.log("---->", disabledDays);
+    console.log(villa.id);
+    senddisabledDays(villa.id, disabledDays);
+  };
 
   return (
     <div>
@@ -92,61 +79,56 @@ const sendDisabledDays = () => {
             rel="stylesheet"
             href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
             integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
-            crossorigin=""
+         //   crossorigin=""
           />
+          
+        </Head>
 
-          <script
+<>
+
+<Script
             src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
             integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
-            crossorigin=""
-          ></script>
-        </Head>
+           // crossorigin=""
+          ></Script>
+</>
+
+
       </div>
 
       <div>
         <div>
           <img src={villa.images[0]} alt={villa.name} />
 
+          <div className=" flex mr-6 ml-6 pb-6 justify-between ">
+            <div className="villa-info">
+              <h2>{villa.name}</h2>
 
-<div className=" flex mr-6 ml-6 pb-6 justify-between ">
+              <h3>{villa.coordinate.lat}</h3>
+              <h3>{villa.coordinate.lng}</h3>
+              <h3>{villa.price}</h3>
+            </div>
 
+            {/* // data picke- */}
 
-          <div className="villa-info">
-            <h2>{villa.name}</h2>
+            <div>
+              <div className="flex flex-col">
+                <Calendar
+                  value={selectedDate}
+                  onChange={handleCalendar}
+                  minimumDate={utils().getToday()}
+                  maximumDate={maximumDate}
+                  shouldHighlightWeekends
+                  //disabledDays={disabledDays}
+                  disabledDays={villa.disabledDays}
+                />
 
-            <h3>{villa.coordinate.lat}</h3>
-            <h3>{villa.coordinate.lng}</h3>
-            <h3>{villa.price}</h3>
+                <div>
+                  <button onClick={sendDisabledDays}>make check in</button>
+                </div>
+              </div>
+            </div>
           </div>
-
-
-{/* // data picke- */}
-
-<div>
-
-<div className="flex flex-col">
-          <Calendar
-            value={selectedDate}
-            onChange={handleCalendar}
-            minimumDate={utils().getToday()}
-            maximumDate={maximumDate}
-            shouldHighlightWeekends
-           
-            //disabledDays={disabledDays}
-            disabledDays={villa.disabledDays}
-          />
-
-<div>
-  <button
-  onClick={sendDisabledDays}
-  >make check in</button>
-</div>
-         
-        </div>
-</div>
-
-</div>
-
 
           <div>
             <MapContainer
