@@ -26,7 +26,7 @@ import {
   where,
   FieldPath,
   updateDoc,
-  arrayUnion
+  arrayUnion,
 } from "firebase/firestore";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -44,12 +44,13 @@ const subContextComponent = ({ children }) => {
   const [name, setName] = useState("maher");
   const [villas, setVillas] = useState([]);
   const [currentUser, setUser] = useState({});
-const [userinfo , setUserInfo] = useState({});
+  const [userinfo, setUserInfo] = useState({});
+  const [disbledaysischange, setDisbledaysischange] = useState();
 
   //--- Sign in with google ---
 
- // sign with google
- const signInWithGoogle = async () => {
+  // sign with google
+  const signInWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
     await signInWithPopup(auth, provider);
 
@@ -69,19 +70,15 @@ const [userinfo , setUserInfo] = useState({});
     });
   };
 
+  // signout
 
-// signout
-
-const logout = () => {
+  const logout = () => {
     console.log("logout");
     setUser({});
     return signOut(auth);
   };
 
-//------
-
-
-
+  //------
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -89,17 +86,19 @@ const logout = () => {
         // User is signed in.
 
         setUser(user);
-          console.log("user status changed: ", user.email, user.uid);
+        console.log("user status changed: ", user.email, user.uid);
 
         async function fetchuser() {
           if (user) {
             //  console.log(`currentUser: ${user.email}`);
 
-            await getDoc(doc(db, "villasUsers", user.email)).then((userdata) => {
-              //console.log('userdata',userdata)
-              setUserInfo(userdata.data());
-              //  console.log("userinf------->>>", userinfo);
-            });
+            await getDoc(doc(db, "villasUsers", user.email)).then(
+              (userdata) => {
+                //console.log('userdata',userdata)
+                setUserInfo(userdata.data());
+                //  console.log("userinf------->>>", userinfo);
+              }
+            );
           }
         }
 
@@ -109,15 +108,7 @@ const logout = () => {
     return unsubscribe;
   }, [currentUser, auth]);
 
-
-
-
-    //--- Sign in with google ---
-
-
-
-
-
+  //--- Sign in with google ---
 
   // fetch villas from firebase
 
@@ -131,45 +122,48 @@ const logout = () => {
         }));
 
         setVillas(productsArr);
-      //  console.log("All ---------> villas is fetched", productsArr, "");
+        //  console.log("All ---------> villas is fetched", productsArr, "");
       }
     );
   }, []);
 
+  // send disbled days to the firebase
 
-// send disbled days to the firebase
+  const senddisabledDays = async (villaId, disabled) => {
+    console.log("disabledDays in global----->", disabled);
 
-const senddisabledDays = async(villaId,disabled) => {
+    const userpath = doc(db, "villas", `${villaId}`);
+    const d = await (await getDoc(userpath)).data()?.disabledDays;
 
-console.log("disabledDays in global----->",disabled);
+    console.log("d in global----->", d);
 
-const userpath = doc(db, "villas", `${villaId}`);
-const d = await (await getDoc(userpath)).data()?.disabledDays;
+    const joinded = d?.concat(disabled);
 
-console.log("d in global----->",d);
+    console.log("joinded in global----->", joinded);
 
-
-const joinded = d?.concat(disabled);
-
-console.log("joinded in global----->",joinded);
-
-await updateDoc(doc(db, "villas", villaId), {
-    disabledDays: disabled,
-  }).then(() => {
-
+    await updateDoc(doc(db, "villas", villaId), {
+      disabledDays: disabled,
+    })
+      .then(() => {
         console.log("disabledDays is updated");
-    }
-    ).catch(err => {
+        setDisbledaysischange(!disbledaysischange);
+      })
+      .catch((err) => {
         console.log("error", err);
-    }
-    );
+      });
+  };
 
-
-}
-
-  const value = { name, villas,senddisabledDays,signInWithGoogle,logout,currentUser,userinfo };
-  
-
+  const value = {
+    disbledaysischange,
+    setDisbledaysischange,
+    name,
+    villas,
+    senddisabledDays,
+    signInWithGoogle,
+    logout,
+    currentUser,
+    userinfo,
+  };
 
   return (
     <globalContext.Provider {...{ value }}>{children}</globalContext.Provider>
